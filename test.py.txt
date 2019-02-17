@@ -1,0 +1,126 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import sys
+import time
+import RPi.GPIO as GPIO
+
+distanceFrom0to1 = 35
+distanceFrom1to2 = 105
+distanceFrom2to3 = 105
+distanceFrom3to4 = 105
+distanceFrom4to5 = 105
+distanceFrom5to6 = 105
+
+GPIO.setmode(GPIO.BCM)
+
+#x motor
+GPIO.setup(4,GPIO.OUT)
+GPIO.output(4, GPIO.LOW)
+GPIO.setup(17,GPIO.OUT)
+GPIO.output(17, GPIO.HIGH)
+
+
+#yright
+GPIO.setup(27,GPIO.OUT)
+GPIO.output(27, GPIO.LOW)
+GPIO.setup(26,GPIO.OUT)
+GPIO.output(26, GPIO.HIGH)
+
+#yleft
+GPIO.setup(16,GPIO.OUT)
+GPIO.output(16, GPIO.LOW)
+GPIO.setup(12,GPIO.OUT)
+GPIO.output(12, GPIO.HIGH)
+
+#limit left
+GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+#limit right
+GPIO.setup(25, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+distance = 0
+lead = 8
+rev=200
+pitch=2 #mm, pitch
+timee=50 #ms
+
+WaitTime = 0.001
+
+def turnn():
+	GPIO.output(4,GPIO.HIGH)
+	time.sleep(WaitTime)
+	GPIO.output(4, GPIO.LOW)
+	time.sleep(WaitTime)
+
+def upup(pulse):
+    GPIO.output(12, GPIO.HIGH)
+    GPIO.output(26, GPIO.HIGH)
+    
+    for number in range(pulse):
+	GPIO.output(27, GPIO.HIGH)
+	GPIO.output(16, GPIO.HIGH)
+	time.sleep(WaitTime)
+
+	GPIO.output(27, GPIO.LOW)
+	GPIO.output(16, GPIO.LOW)
+	time.sleep(WaitTime)
+    return;
+
+def downn(pulse):
+    GPIO.output(26, GPIO.LOW)
+    GPIO.output(12, GPIO.LOW)
+    
+    for number in range(pulse):
+	GPIO.output(27, GPIO.HIGH)
+	GPIO.output(16, GPIO.HIGH)
+	time.sleep(WaitTime)
+
+	GPIO.output(27, GPIO.LOW)
+	GPIO.output(16, GPIO.LOW)
+	time.sleep(WaitTime)
+    return;    
+
+def convert(distance,direction):
+    
+    if direction==1:
+        GPIO.output(17, GPIO.HIGH)
+    if direction==0:
+        GPIO.output(17, GPIO.LOW)   
+         
+	#global x,y
+	#x=(rev*distance)/lead
+	#y=int(round(x))
+
+    
+    for number in range(int(round((rev*distance)/lead))):
+	turnn()
+
+def reset():
+    while True:
+        convert(1,0)
+        if GPIO.input(18)==0:
+            return
+    
+    
+
+#upup(500)
+#time.sleep(2)
+#downn(500)
+
+reset()
+convert(distanceFrom0to1,1)
+#upup(1000)
+#downn(1000)
+convert(distanceFrom1to2,1)
+#upup(1000)
+#downn(1000)
+convert(distanceFrom2to3,1)
+#upup(1000)
+#downn(1000)
+convert(distanceFrom3to4,1)
+#upup(1000)
+#downn(1000)
+convert(distanceFrom4to5,1)
+#upup(1000)
+#downn(1000)
+
+
