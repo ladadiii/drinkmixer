@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>LoginPage.qml</file>
+        <file>HomePage.qml</file>
+        <file>AddMenu.qml</file>
+        <file>Voice.qml</file>
+        <file>MenuPage.qml</file>
+        <file>AddBottleList.qml</file>
+        <file>ConfigurePage.qml</file>
+        <file>LoadedBottles.qml</file>
+        <file>WaitPage.qml</file>
+    </qresource>
+</RCC>
