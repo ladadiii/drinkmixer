@@ -1,2 +1,0 @@
-# drinkmixer
-drinkmixer project files
