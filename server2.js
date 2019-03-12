@@ -38,9 +38,11 @@ app.use((req,res,next) =>{
 
 
 
+//app.get('/', start); 
 
-
-router.post('/',(req, res, next) => {
+//router.post('/',(req, res, next) => {
+function start(drinkName)
+{
 
     var drinkrecipe
     var bot = {
@@ -77,7 +79,7 @@ router.post('/',(req, res, next) => {
         database: 'drinkmixer'
     })
 
-    const drinkname=req.body.name
+    const drinkname=drinkName
 
     q = "SELECT idLoadedBottles FROM drinkmixer.loadedbottles where bottlelist_idBottleList ="
 
@@ -107,8 +109,7 @@ router.post('/',(req, res, next) => {
         ml: 0
     }
 
-
-    
+  
 
     con.connect(function(err) {
         if (err) throw err;
@@ -118,7 +119,11 @@ router.post('/',(req, res, next) => {
 
             
             if (result[0]===undefined) {
+                
+                //return(0)
+                console.log(result[0])
                 console.log("drink not found")
+                return 0
             }
             else{
                 drinkrecipe = result[0]
@@ -130,12 +135,14 @@ router.post('/',(req, res, next) => {
                     if(result[0]===undefined){
                         console.log("serve")
                         sorting()
-                        res.end()
-                        res.json({
-                            error:{
-                                message:"query1 "
-                            }
-                        })
+                        console.log("bottle not loaded1")
+                        return 0
+                        // res.end()
+                        // res.json({
+                        //     error:{
+                        //         message:"query1 "
+                        //     }
+                        // })
                     }
                     else{
                         bot.slot = result[0].idLoadedBottles
@@ -148,12 +155,14 @@ router.post('/',(req, res, next) => {
                             if(result[0]===undefined){
                                 console.log("serve drink")
                                 sorting()
-                                res.end()
-                                res.json({
-                                    error:{
-                                        message:"query2 "
-                                    }
-                                })
+                                console.log("bottle not loaded2")
+                                return 0
+                                // res.end()
+                                // res.json({
+                                //     error:{
+                                //         message:"query2 "
+                                //     }
+                                // })
                             }
                             else{
                                 console.log('ika duha ka bottle')
@@ -167,12 +176,14 @@ router.post('/',(req, res, next) => {
                                     if(result[0]===undefined){
                                         console.log("serve drink")
                                         sorting()
-                                        res.end()
-                                        res.json({
-                                            error:{
-                                                message:"query3 "
-                                            }
-                                        })
+                                        console.log("bottle not loaded3")
+                                        return 0
+                                        // res.end()
+                                        // res.json({
+                                        //     error:{
+                                        //         message:"query3 "
+                                        //     }
+                                        // })
                                     }
                                     else{
                                         console.log('ika 3 ka bottle')
@@ -187,12 +198,14 @@ router.post('/',(req, res, next) => {
                                             if(result[0]===undefined){
                                                 console.log("serve drink")
                                                 sorting()
-                                                res.end()
-                                                res.json({
-                                                    error:{
-                                                        message:"query 4 "
-                                                    }
-                                                })
+                                                console.log("bottle not loaded4")
+                                                return 0
+                                                // res.end()
+                                                // res.json({
+                                                //     error:{
+                                                //         message:"query 4 "
+                                                //     }
+                                                // })
                                             }
                                             else{
                                                 console.log('ika 4 ka bottle')
@@ -208,12 +221,14 @@ router.post('/',(req, res, next) => {
                                                     if(result[0]===undefined){
                                                         console.log("serve drink")
                                                         sorting()
-                                                        res.end()
-                                                        res.json({
-                                                            error:{
-                                                                message:"quer5 "
-                                                            }
-                                                        })
+                                                        console.log("bottle not loaded5")
+                                                        return 0
+                                                        // res.end()
+                                                        // res.json({
+                                                        //     error:{
+                                                        //         message:"quer5 "
+                                                        //     }
+                                                        // })
                                                     }
                                                     else{
                                                         console.log('ika 5 ka bottle')
@@ -229,12 +244,14 @@ router.post('/',(req, res, next) => {
                                                             if(result[0]===undefined){
                                                                 console.log("serve drink")
                                                                 sorting()
-                                                                res.end()
-                                                                res.json({
-                                                                    error:{
-                                                                        message:"query6 "
-                                                                    }
-                                                                })
+                                                                console.log("bottle not loaded6")
+                                                                return 0
+                                                                // res.end()
+                                                                // res.json({
+                                                                //     error:{
+                                                                //         message:"query6 "
+                                                                //     }
+                                                                // })
                                                             }
                                                             else{
                                                                 console.log('ika 6 ka bottle')
@@ -283,30 +300,27 @@ router.post('/',(req, res, next) => {
                                 returnML(5)] ); 
     
         process.stdout.on('data', function(data) { 
-            res.status(200).json(data.toString())
+            //res.status(200).json(data.toString())
             console.log(data.toString()); 
 
         } ) 
 
-        res.status(200)
-        res.json({
-            message:"finished"
+        // res.status(200)
+        // res.json({
+        //     message:"finished"
 
-        })
+        // })
+        console.log("finished")
 
         
     }
-
-
-
-
 
 
     function returnML(index) {
         return array[index].ml
     }
 
-})
+}
 
 
 
@@ -341,6 +355,7 @@ router.post('/',(req, res, next) => {
 
 
 app.use('/server', router)
-app.listen('0.0.0.0', port,(err)=>{
+app.listen(port,(err)=>{
     console.log("running at"+port)
+    start('orumcke')
 })
